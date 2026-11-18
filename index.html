@@ -81,6 +81,7 @@ h2{font-family:var(--font-display);font-weight:800;font-size:44px;letter-spacing
 @media(max-width:600px){.grid{grid-template-columns:repeat(2,1fr);gap:22px 12px}.card figcaption{font-size:13px;margin-top:8px}.card .m{font-size:12px}.flip .back{padding:12px 10px}.flip .back .dir{font-size:15px}.flip .back .dir.multi{font-size:12px}.flip .back .roles{font-size:10px}}
 .card{margin:0}
 .poster{aspect-ratio:2/3;border-radius:3px;overflow:hidden;position:relative;box-shadow:0 14px 30px rgba(0,0,0,.55);transition:transform .25s}
+.poster.hl{container-type:inline-size}.poster .lt{position:absolute;left:0;right:0;bottom:0;padding:30cqw 6cqw 6cqw;background:linear-gradient(transparent,rgba(0,0,0,.85));font-family:'Big Shoulders Display','Arial Narrow',sans-serif;font-weight:900;font-size:21cqw;line-height:.9;letter-spacing:.3cqw;text-transform:uppercase;color:#fff;pointer-events:none}
 .card:hover .poster{transform:translateY(-4px)}
 .poster img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 .poster.gen{display:flex;flex-direction:column;justify-content:space-between;padding:18px 16px;color:#fff}
@@ -224,7 +225,7 @@ footer summary{cursor:pointer}
 <script>
 /* Projekte pflegen. type: "film" oder "tv". img: Pfad zum Plakat, z. B. "posters/dark.jpg". Ohne img entsteht eine Titel-Kachel. */
 var PROJECTS = [
-  {"title": "Im Grunde Mord", "year": "2027", "type": "tv", "role": "Sound Designer"},
+  {"title": "Im Grunde Mord", "year": "2027", "type": "tv", "role": "Sound Designer", "lettering": true},
   {"title": "The Hive", "year": "2026", "type": "film", "role": "Sound Designer"},
   {"title": "The Nordic Murders", "year": "2026", "type": "tv", "role": "Sound Designer"},
   {"title": "Das gewisse Etwas", "year": "2026", "type": "film", "role": "Sound Designer"},
@@ -358,7 +359,7 @@ function renderGrid(){
     if(filter!=='all'&&p.type!==filter) return;
     var k=TXT[lang]['k'+p.type], a=hue(p.title), b=(a+38)%360;
     var src=p.img||POSTERS[slug(p.title)]||'';
-    var poster='<div class="poster gen" style="background:linear-gradient(165deg,hsl('+a+',48%,26%),hsl('+b+',55%,11%))"><span class="kind">'+esc(k)+'</span><span class="name">'+esc(tt(p))+'</span><span class="yr">'+esc(p.year)+'</span>'+(src?'<img src="'+src+'" alt="Plakat '+esc(tt(p))+'" onerror="this.remove()">':'')+'</div>';
+    var poster='<div class="poster gen'+(p.lettering?' hl':'')+'" style="background:linear-gradient(165deg,hsl('+a+',48%,26%),hsl('+b+',55%,11%))"><span class="kind">'+esc(k)+'</span><span class="name">'+esc(tt(p))+'</span><span class="yr">'+esc(p.year)+'</span>'+(src?'<img src="'+src+'" alt="Plakat '+esc(tt(p))+'" onerror="this.remove()">':'')+(p.lettering&&src?'<span class="lt">'+esc(tt(p))+'</span>':'')+'</div>';
     var roles=String(p.role).split(/,\s*/).map(function(r){return '<span>'+esc(r)+'</span>';}).join('');
     var dr=DIRECTORS[p.title]?'<span class="dir'+(DIRECTORS[p.title].indexOf(',')>0?' multi':'')+'"><em>'+(DIRECTORS[p.title].indexOf(',')>0?'Directors':'Director')+'</em>'+esc(DIRECTORS[p.title])+'</span>':'';
     var back='<div class="back" style="background:linear-gradient(165deg,hsl('+a+',48%,24%),hsl('+b+',55%,9%))"><span class="kind">'+esc(k)+'</span><span class="bt">'+esc(tt(p))+'</span>'+dr+'<span class="roles">'+roles+'</span><span class="yr">'+esc(p.year)+'</span></div>';
