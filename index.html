@@ -78,7 +78,7 @@ h2{font-family:var(--font-display);font-weight:800;font-size:44px;letter-spacing
 .filters button[aria-pressed="true"]{background:var(--paper);color:var(--ink);border-color:var(--paper)}
 
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:30px 22px}
-@media(max-width:600px){.grid{grid-template-columns:repeat(2,1fr);gap:22px 12px}.card figcaption{font-size:13px;margin-top:8px}.card .m{font-size:12px}.flip .back{padding:12px 10px}.flip .back .dir{font-size:11px}.flip .back .roles{font-size:15px}}
+@media(max-width:600px){.grid{grid-template-columns:repeat(2,1fr);gap:22px 12px}.card figcaption{font-size:13px;margin-top:8px}.card .m{font-size:12px}.flip .back{padding:12px 10px}.flip .back .dir{font-size:15px}.flip .back .dir.multi{font-size:12px}.flip .back .roles{font-size:10px}}
 .card{margin:0}
 .poster{aspect-ratio:2/3;border-radius:3px;overflow:hidden;position:relative;box-shadow:0 14px 30px rgba(0,0,0,.55);transition:transform .25s}
 .card:hover .poster{transform:translateY(-4px)}
@@ -141,9 +141,10 @@ body.scrolled a.brand{opacity:1;pointer-events:auto}
 
 .flip .back{justify-content:flex-start;gap:10px}
 .flip .back .bt{font-family:var(--font-display);font-weight:900;text-transform:uppercase;font-size:clamp(20px,2.2vw,28px);line-height:.95;word-break:normal;overflow-wrap:normal;hyphens:none}
-.flip .back .dir{font-size:13px;line-height:1.3;color:#e8e4dc}
-.flip .back .dir em{display:block;font-style:normal;font-size:10px;letter-spacing:.22em;text-transform:uppercase;opacity:.7;margin-bottom:2px}
-.flip .back .roles{margin-top:auto;font-size:clamp(17px,1.8vw,22px);gap:3px}
+.flip .back .dir{font-family:var(--font-display);font-weight:800;text-transform:uppercase;font-size:clamp(18px,1.9vw,24px);line-height:1.05;letter-spacing:.01em;color:#fff}
+.flip .back .dir.multi{font-size:clamp(14px,1.45vw,18px)}
+.back .dir em{display:block;font-style:normal;font-size:10px;letter-spacing:.22em;text-transform:uppercase;opacity:.7;margin-bottom:2px}
+.flip .back .roles{margin-top:auto;font-size:clamp(11px,1.05vw,13px);font-weight:600;letter-spacing:.06em;gap:2px;line-height:1.1}
 
 .legal{margin-top:14px;max-width:68ch;line-height:1.6;color:var(--muted);font-size:14px}
 .legal h3{font-family:var(--font-display);font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--paper);font-size:20px;margin:0 0 10px}
@@ -359,7 +360,7 @@ function renderGrid(){
     var src=p.img||POSTERS[slug(p.title)]||'';
     var poster='<div class="poster gen" style="background:linear-gradient(165deg,hsl('+a+',48%,26%),hsl('+b+',55%,11%))"><span class="kind">'+esc(k)+'</span><span class="name">'+esc(tt(p))+'</span><span class="yr">'+esc(p.year)+'</span>'+(src?'<img src="'+src+'" alt="Plakat '+esc(tt(p))+'" onerror="this.remove()">':'')+'</div>';
     var roles=String(p.role).split(/,\s*/).map(function(r){return '<span>'+esc(r)+'</span>';}).join('');
-    var dr=DIRECTORS[p.title]?'<span class="dir"><em>'+(DIRECTORS[p.title].indexOf(',')>0?'Directors':'Director')+'</em>'+esc(DIRECTORS[p.title])+'</span>':'';
+    var dr=DIRECTORS[p.title]?'<span class="dir'+(DIRECTORS[p.title].indexOf(',')>0?' multi':'')+'"><em>'+(DIRECTORS[p.title].indexOf(',')>0?'Directors':'Director')+'</em>'+esc(DIRECTORS[p.title])+'</span>':'';
     var back='<div class="back" style="background:linear-gradient(165deg,hsl('+a+',48%,24%),hsl('+b+',55%,9%))"><span class="kind">'+esc(k)+'</span><span class="bt">'+esc(tt(p))+'</span>'+dr+'<span class="roles">'+roles+'</span><span class="yr">'+esc(p.year)+'</span></div>';
     h+='<figure class="card"><div class="flip" tabindex="0" role="button" aria-label="'+esc(tt(p))+': '+esc(p.role)+'">'+poster+back+'</div><figcaption><span class="t">'+esc(tt(p))+'</span><span class="m">'+esc(p.year)+'</span></figcaption></figure>';
   });
